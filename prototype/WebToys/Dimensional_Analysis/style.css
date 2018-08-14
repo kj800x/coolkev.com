@@ -1,0 +1,87 @@
+table.fractionTable {
+  border-collapse: collapse;
+  float:left
+}
+table.fractionTable td,
+table.fractionTable th {
+  border: 1px solid black;
+  height: 21px;
+}
+table.fractionTable td {
+  border-top: none;
+}
+table.fractionTable tr:first-child td {
+  border-top: 0;
+}
+table.fractionTable tr.xable td{
+  border: 0;
+}
+table.fractionTable tr:last-child td {
+  border-bottom: 0;
+}
+table.fractionTable tr td:first-child,
+table.fractionTable tr th:first-child {
+  border-left: 0;
+}
+table.fractionTable tr td:last-child,
+table.fractionTable tr th:last-child {
+  border-right: 0;
+}
+#result {
+  position: relative;
+  top: 39px;
+  left: 10px;
+}
+.exitbutton {
+  text-align: center;
+  color: #F00;
+}
+
+input {
+  width: 100px;
+}
+
+#output {
+  margin: 5px 0px;
+  padding:5px;
+  border: 1px solid blue;
+}
+
+.settings {
+  border: 1px solid green;
+  margin: 5px;
+  margin-left: 0px;
+  padding:10px;
+}
+
+.recommendedFactor {
+  margin-right:30px;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+#ui_rec_output {
+  border: 1px solid purple;
+  margin: 5px 0px;
+  padding:10px;
+}
+
+#ui_bal_input {
+  border: 1px solid orange;
+  margin: 5px 0px;
+  padding:10px;
+}
+
+#notes {
+  border: 1px solid black;
+  font-size: small;
+  padding:5px;
+}
+
+input#bal_in {
+width: 400px;
+}
+
+.floatbreak {
+  clear: both;
+}

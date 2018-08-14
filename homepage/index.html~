@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="theme-color" content="#C07238" />
+    <title>start</title>
+    <style type="text/css">
+
+      *, * * {
+        font-family: monospace !important; /* I might not like this */
+      }
+
+      body {
+        background : #101012;  /*#170F0D;*/
+        font-style : normal;
+        color : #c0b18b; /*#AF652F;*/
+        margin : 50px;
+      }
+
+      td, tr {
+        width: 25%;
+        text-align: center;
+        font-size: 14px;
+      }
+
+      a {
+        font-weight: 300;
+        color : #7a303e; /*#908F32;*/
+      }
+
+      a:hover{
+        color: #b1465a; /*#C3C13D;*/
+      }
+
+      a:link {
+        text-decoration : none;
+      }
+
+      #time {
+        font-size: 62px;
+        text-align: center;
+        margin-bottom:20px;
+      }
+
+      .googleForm {
+        margin-top:20px;
+        width : 100%;
+        height : 30px;
+        font-weight : 100;
+      }
+
+      .googleForm > input {
+        width : 100%;
+        background: #101012; /*#170F0D;*/
+        color: #c0b18b; /*#AF542F;*/
+        border: 2px solid #392925;
+        border-radius: 4px;
+        padding: 0 4px;
+      }
+
+      /* This aligner stuff is supposed to center the Aligner-item vertically and horizontally. It obviously isn't doing it's job... */
+
+      #Aligner {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      #double_click_table {
+        display: none;
+      }
+
+      .Aligner-item {
+        width : 480px;
+        height : 300px;
+      }
+
+      .Aligner-item--top {
+        align-self: flex-start;
+      }
+
+      .Aligner-item--top, .Aligner-item--bottom {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Chrome/Safari/Opera */
+     -khtml-user-select: none; /* Konqueror */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  not supported by any browser */
+}
+
+      .Aligner-item--bottom {
+        align-self: flex-end;
+      }
+
+    </style>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script type="text/javascript">$(function(){$(document).on("dblclick", function(){$("#double_click_table").toggle()});$("#double_click_table").hide();});</script>
+  </head>
+  <body>
+    <div id="Aligner">
+      <div class="Aligner-item Aligner-item--top">&nbsp;</div>
+      <div class="Aligner-item">
+        <div id="time">&nbsp;</div>
+	<table width="100%" border="0px">
+	  <tr>
+	    <td>Social</td>
+            <td>Google</td>
+            <td>PowerAdvocate</td>
+            <td>Funny</td>
+	  </tr>
+	  <tr>
+	    <td>
+	      <a href="http://www.facebook.com">Facebook</a>
+	    </td>
+	    <td>
+	      <a href="http://www.gmail.com">Gmail</a>
+	    </td>
+	    <td>
+              <a href="https://newacumatica.poweradvocate.com/AcumaticaProd/Frames/Login.aspx?ReturnUrl=%2fAcumaticaProd">Acumatica</a>
+	    </td>
+            <td>
+              <a href="http://www.xkcd.com/">xkcd</a>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="http://www.twitter.com">Twitter</a>
+            </td>
+            <td>
+	      <a href="http://calendar.google.com">Calendar</a>
+            </td>
+            <td>
+	      <a href="https://mail.poweradvocate.com/owa/">Outlook</a>
+            </td>
+            <td>
+              <a href="http://www.imgur.com/">Imgur</a>
+            </td>
+	  </tr>
+	  <tr>
+	    <td>
+	      <a href="http://www.reddit.com">Reddit</a>
+            </td>
+            <td>
+	      <a href="http://drive.google.com">Drive</a>
+            </td>
+            <td>
+	      <a href="http://poweradvocate-tech.slack.com">Slack</a>
+            </td>
+            <td>
+              <a href="http://www.smbc-comics.com/">SMBC</a>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <!--<a href="http://www.nhl.com">NHL</a>-->
+            </td>
+            <td>
+              <!--<a href="http://www.google.com/analytics">Analytics</a>-->
+            </td>
+	    <td>
+              <a href="https://sharepoint.poweradvocate.com/default.aspx">Sharepoint</a>
+            </td>
+	    <td>
+	      <a href="http://explosm.net/">CaH</a>
+            </td>
+	  </tr>
+<!--          <tr>
+            <td>
+              <!--<a href="http://www.nhl.com">NHL</a>
+            </td>
+            <td>
+              <!--<a href="http://www.google.com/analytics">Analytics</a>
+            </td>
+	    <td>
+	      <!--<a href="https://www.piazza.com/class">Piazza</a>
+            </td>
+	    <td>
+	      <!--<a href="http://explosm.net/">CaH</a>
+            </td>
+	  </tr>-->
+	</table>
+	<table width="100%" border="0px" id="double_click_table">
+	  <tr>
+	    <td>BLANK</td>
+            <td>Foods</td>
+            <td>More PA</td>
+            <td>BLANK</td>
+	  </tr>
+	  <tr>
+	    <td>
+	      <!--<a href="http://www.facebook.com">Facebook</a>-->
+	    </td>
+	    <td>
+	      <!--<a href="http://www.gmail.com">Gmail</a>-->
+	    </td>
+	    <td>
+              <!--<a href="https://newacumatica.poweradvocate.com/AcumaticaProd/Frames/Login.aspx?ReturnUrl=%2fAcumaticaProd">Acumatica</a>-->
+	    </td>
+            <td>
+              <!--<a href="http://www.xkcd.com/">xkcd</a>-->
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <!--<a href="http://www.twitter.com">Twitter</a>-->
+            </td>
+            <td>
+	      <!--<a href="http://calendar.google.com">Calendar</a>-->
+            </td>
+            <td>
+	      <!--<a href="https://mail.poweradvocate.com/owa/">Outlook</a>-->
+            </td>
+            <td>
+              <!--<a href="http://www.imgur.com/">Imgur</a>-->
+            </td>
+	  </tr>
+	  <tr>
+	    <td>
+	      <a href="http://www.reddit.com">Reddit</a>-->
+            </td>
+            <td>
+	      <a href="http://drive.google.com">Drive</a>
+            </td>
+            <td>
+	      <a href="http://poweradvocate-tech.slack.com">Slack</a>
+            </td>
+            <td>
+              <a href="http://www.smbc-comics.com/">SMBC</a>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <!--<a href="http://www.nhl.com">NHL</a>-->
+            </td>
+            <td>
+              <!--<a href="http://www.google.com/analytics">Analytics</a>-->
+            </td>
+	    <td>
+              <a href="https://sharepoint.poweradvocate.com/default.aspx">Sharepoint</a>
+            </td>
+	    <td>
+	      <a href="http://explosm.net/">CaH</a>
+            </td>
+	  </tr>
+<!--          <tr>
+            <td>
+              <!--<a href="http://www.nhl.com">NHL</a>
+            </td>
+            <td>
+              <!--<a href="http://www.google.com/analytics">Analytics</a>
+            </td>
+	    <td>
+	      <!--<a href="https://www.piazza.com/class">Piazza</a>
+            </td>
+	    <td>
+	      <!--<a href="http://explosm.net/">CaH</a>
+            </td>
+	  </tr>-->
+	</table>
+  	<form class="googleForm" method="get" action="https://google.com/search">
+          <input type="text" name="q" size="30" maxlength="255" placeholder="Google" autofocus />
+        </form>
+      </div>
+      <div class="Aligner-item Aligner-item--bottom">&nbsp;</div>
+    </div>
+    <script>
+(function(){
+  
+  function getMinutesTwoDigits(time) {
+    var min = time.getMinutes();
+    if (min < 10) {
+      return "0" + min;
+    }
+    return "" + min;
+  }
+
+  function getHoursModTwelve(time) {
+    var hours = time.getHours();
+    hours = hours%12;
+    if (hours == 0) { // 0 o'clock should be rendered as 12 o'clock.
+      hours = 12;
+    }
+    return hours;
+  }  
+
+  function updateClock() {
+    var now = new Date();
+    var formattedTime = getHoursModTwelve(now) + ':' + getMinutesTwoDigits(now);
+    document.getElementById('time').innerHTML = formattedTime;
+  }
+
+  setInterval(updateClock, 1000); // Update the clock every second.
+
+  updateClock();
+
+})();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,63 @@
+{% extends '../baseformat.html' %}
+
+
+{% block Title %}Factoring{% endblock Title%}
+{% block PageTitle %}Factoring{% endblock PageTitle%}
+
+
+{% block SpareJavascript %}
+<script type="text/javascript">
+  
+  function factorpair(a,b){
+  	this.a = a;
+    	this.b = b;
+    	return this;
+  }
+  
+  function kevin_factor(a,b,c){
+  	var p = a*c;
+    
+    	factors = [];
+    	for (var i = 0-Math.abs(-1*(p+1)); i <= Math.abs(p+1); i++){
+          	if (i != 0){
+                  	if ((p%i) == 0){
+                          	factors.push(new factorpair(i, p/i))
+                        }
+                }
+    	}
+    
+    	for (pairindex in factors){
+          	if (factors[pairindex].a + factors[pairindex].b == b){
+                  	if (factors[pairindex].a * factors[pairindex].b == a*c){
+            			return factors[pairindex];
+                        }
+                }
+        }
+    	return "NONE";
+    	
+  }
+  
+  function displaywrap(){
+  	var a = parseInt(document.getElementById("IA").value);
+  	var b = parseInt(document.getElementById("IB").value);
+  	var c = parseInt(document.getElementById("IC").value);
+        result = kevin_factor(a,b,c);
+        if (result == "NONE"){
+            result = new factorpair("NO", "FACTORS");
+        }
+        document.getElementById("OA").innerHTML = a;
+        document.getElementById("OB1").innerHTML = result.a;
+        document.getElementById("OB2").innerHTML = result.b;
+        document.getElementById("OC").innerHTML = c;
+  }
+  
+    </script>
+{% endblock SpareJavascript %}
+
+
+{% block Content %}
+<h1>Factoring polynomials in the form AX<super>2</super> + BX + C</h1>
+<input id="IA" value="0" style="width:30px;">X<sup>2</sup> + <input id="IB" value="0" style="width:30px;">X + <input id="IC" value="0" style="width:30px;"> <br />
+<button onclick="displaywrap()"> Factor </button> <br />
+<span id="OA"></span>X<sup>2</sup> + <span id="OB1"></span>X + <span id="OB2"></span>X + <span id="OC"></span>
+{% endblock Content %}

@@ -1,0 +1,59 @@
+{% extends '../baseformat.html' %}
+
+{% block Title %}Coolkev Graphing Calculator{% endblock Title%}
+{% block PageTitle %}Coolkev Graphing Calculator{% endblock PageTitle%}
+
+{% block SpareJavascript %}
+    <script>
+      function convertfromcanvastograph_x(x){
+        return x/25.0 - 10
+      }
+      function convertfromgraphtocanvas_x(x){
+        return 25*x + 250
+      }
+      function convertfromgraphtocanvas_y(y){
+        return 250 - 25*y
+      }
+      
+      function clear(){
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        return true;
+      }
+      
+      line = true;
+      
+      function graph(){
+        clear();
+        ctx.strokeStyle = "#AFA";
+        if (line){
+          ctx.beginPath();
+        }
+        for (var i = 0; i <= 500; i++){
+          var equatval = document.getElementById("equation").value;
+          equatval = equatval.replace(/x/g,"convertfromcanvastograph_x(i)");
+          var equatexp = eval(equatval);
+          if (line){
+            ctx.lineTo(i,convertfromgraphtocanvas_y(equatexp));
+          } else {
+            ctx.rect(i,convertfromgraphtocanvas_y(equatexp),1,1);        
+          }
+        }
+        ctx.stroke();
+        return true;
+      }
+    </script>
+{% endblock SpareJavascript %}
+
+{% block Content %}
+    <canvas style="background-color:black" id="can" height="500" width="500"></canvas> <br />
+    <h1> Insert equation below </h1> <br />
+    y = <input type="text" id="equation" style="width:100px;"/> <br />
+    <button onclick="return graph();"> Graph! </button>
+    <button onclick="return clear();"> Clear! </button><br />
+    <button onclick="line=false;"> Dot-Plot Mode! </button>
+    <button onclick="line=true;"> Line-Plot Mode! </button>
+    <script type="text/javascript">
+      ctx = document.getElementById("can").getContext("2d");
+      canvas = document.getElementById("can");
+    </script>
+{% endblock Content %}

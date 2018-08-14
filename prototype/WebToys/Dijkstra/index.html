@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Graph Shortest-Path</title>
+  <link rel="stylesheet" type="text/css" href="../../format/style.css" />
+
+  <script type="text/javascript">
+
+      function Node (hd, title){this.links = []; this.title = title; this.heuristicData = hd;return this};
+      Node.prototype.link = function(toNode, distance){
+          this.links.push({"to":toNode, "distance": distance});
+          toNode.links.push({"to":this, "distance": distance});
+      }
+      Node.prototype.toString = function(){return this.title};
+
+      function Route(start){
+          this.nodes = [start];
+          this.distance = 0;
+          this.end = start;
+          return this;
+      }
+      Route.prototype.append = function(lnk){
+          this.nodes.push(lnk.to)
+          this.distance = this.distance + lnk.distance;
+          this.end = lnk.to;
+      }
+      Route.prototype.clone = function(){
+          var a = new Route();
+          a.nodes = this.nodes.slice(0);
+          a.heur = this.heur;
+          a.distance = this.distance;
+          a.endtodest = this.endtodest;
+          a.end = this.end;
+          return a;
+      }
+      Route.prototype.toString = function(){
+          var i = 0;
+          var s = "";
+          for (i = 0;i < this.nodes.length; i++){
+              s = s + this.nodes[i].toString();
+              if (i != this.nodes.length - 1){ s = s + " -> "};
+          }
+          return s;
+      }
+
+      // Prototype of route:
+      //   end = end point of route
+      //   heur = estimated effort
+      //   distance = current distance
+      //   endtodest = estimated distance from the end of the route to the destination
+      //m  clone = return copy of route
+      //m  append (x) = make x be the new end point (remember to update distance)
+      function navigate(nodeA, nodeB, heuristic){
+
+          //heuristic is a function that takes two arguments and estimates their distance.
+
+          var sr = new Route(nodeA); //Starting Route
+          sr.endtodest = heuristic(sr.end, nodeB);
+          sr.heur = sr.endtodest + sr.distance
+
+          var possibleRoutes = [sr];
+          var posRtI = 0; //Index of the possible roots
+          var np = undefined;
+          var bestBet = undefined;
+          var i = 0;
+
+
+
+          while (true) {
+              //Find the best bet as a possible route (and pop it from the list)
+              possibleRoutes.sort(function (a,b){
+                  return b.heur - a.heur;
+              })
+
+              bestBet = possibleRoutes.pop();
+
+              //generate more possible routes
+              for (i = 0; i < bestBet.end.links.length; i++){
+                  np = bestBet.clone();
+                  np.append(bestBet.end.links[i]);
+                  np.endtodest = heuristic(np.end, nodeB);
+                  np.heur = np.endtodest + np.distance
+                  possibleRoutes.push(np);
+
+                  if (np.end == nodeB){return np};
+              }
+          }
+
+
+      }
+
+
+      function setup(){
+        /*
+         This function sets a few variables to play around with
+         arranged in the shape seen below. All links have a distance
+         of 1.
+
+         1  2  3  4
+
+         1  a     g--i
+         |     |  |
+         2  b--e--h--j
+         |        |
+         3  c        k
+         |        |
+         4  d--f     l
+         */
+
+          a = new Node({"x": 1, "y":1}, "a");
+          b = new Node({"x": 1, "y":2}, "b");
+          c = new Node({"x": 1, "y":3}, "c");
+          d = new Node({"x": 1, "y":4}, "d");
+          e = new Node({"x": 2, "y":2}, "e");
+          f = new Node({"x": 2, "y":4}, "f");
+          g = new Node({"x": 3, "y":1}, "g");
+          h = new Node({"x": 3, "y":2}, "h");
+          i = new Node({"x": 4, "y":1}, "i");
+          j = new Node({"x": 4, "y":2}, "j");
+          k = new Node({"x": 4, "y":3}, "k");
+          l = new Node({"x": 4, "y":4}, "l");
+
+          a.link(b,1);
+          b.link(c,1);
+          b.link(e,1);
+          c.link(d,1);
+          d.link(f,1);
+          e.link(h,1);
+          h.link(g,1);
+          h.link(j,1);
+          i.link(g,1);
+          i.link(j,1);
+          j.link(k,1);
+          k.link(l,1);
+          //Proof that a is linked to k:
+          //  a.links[0].to.links[2].to.links[1].to.links[2].to.links[2].to.links[1].to.heuristicData
+          //    Object {x: 4, y: 4}
+      }
+
+      function distanceFormula(a,b){return Math.sqrt(Math.pow(a.x - b.x,2) + Math.pow(a.y - b.y,2))}
+      //test code:
+
+      function distanceOfTwoNodes(a,b){return distanceFormula(a.heuristicData,b.heuristicData)}
+
+      function test(){
+          setup();
+          navigate(a,f, distanceOfTwoNodes);
+      }
+
+      function run(){
+          var from = eval(document.getElementById("A").value);
+          var to = eval(document.getElementById("B").value);
+          var result = navigate(from,to, distanceOfTwoNodes);
+          document.getElementById("output").innerHTML = document.getElementById("output").innerHTML +
+                                                        "<p> The shortest distance between " + from.title + " and " + to.title + " is by going: " + result + " (" + result.distance+" steps) </p>";
+      }
+      setup();
+  </script>
+</head>
+<body>
+<div id="container">
+  <div id="logo">
+    <img src="/images/Logo.png" alt="Coolkev Logo" />
+  </div>
+  <div id="title">
+    <div id="siteTitle">
+      Coolkev.com
+    </div>
+    <div id="pageTitle">
+      PNHS Bell Timer
+    </div>
+  </div>
+  <div id="navbar">
+    <div class="navTitle" id="siteNav">
+      Site Navigation
+    </div>
+    <ul>
+      <li><a href="/">Home</a></li>
+    </ul>
+    <div class="navTitle" id="dirNav">
+      Directory Navigation
+    </div>
+    <ul>
+      <li><a href="/prototype/WebToys/belltimer/">PNHS Bell Timer</a></li>
+      <li><a href="/prototype/WebToys/Dijkstra/">My Personal Implementation of Dijkstra's Algorithm</a></li>
+      <li><a href="/prototype/WebToys/Dimensional_Analysis/">Dimensional Analysis Tool</a></li>
+      <li><a href="/prototype/WebToys/DNA/">DNA Parser</a></li>
+      <li><a href="/prototype/WebToys/EquationBalancer/">Equation Balancer</a></li>
+      <li><a href="/prototype/WebToys/Game/">Coolkev Game (broken)</a></li>
+    </ul>
+  </div>
+  <div id="content">
+    <h1>Graph Shortest-Path</h1>
+
+    <div style="font-family:monospace">
+      <p> This webpage can tell you the closest path between any two points on this graph:</p>
+      <pre>
+ a     g--i
+ |     |  |
+ b--e--h--j
+ |        |
+ c        k
+ |        |
+ d--f     l
+</pre>
+      <div id="output">
+      </div>
+      <div id="controls">
+
+        <label>From:</label>
+        <select id="A" name="A">
+          <option value="a" selected>a</option>
+          <option value="b">b</option>
+          <option value="c">c</option>
+          <option value="d">d</option>
+          <option value="e">e</option>
+          <option value="f">f</option>
+          <option value="g">g</option>
+          <option value="h">h</option>
+          <option value="i">i</option>
+          <option value="j">j</option>
+          <option value="k">k</option>
+          <option value="l">l</option>
+        </select>
+        <label>To:</label>
+        <select id="B" name="B">
+          <option value="a">a</option>
+          <option value="b">b</option>
+          <option value="c">c</option>
+          <option value="d">d</option>
+          <option value="e">e</option>
+          <option value="f">f</option>
+          <option value="g">g</option>
+          <option value="h">h</option>
+          <option value="i">i</option>
+          <option value="j">j</option>
+          <option value="k">k</option>
+          <option value="l" selected>l</option>
+        </select>
+
+        <input type="button" value="Go" onclick="run();">
+
+      </div>
+      <p> Although similar to <a href="http://en.wikipedia.org/wiki/Dijkstra's_algorithm">Dijkstra's algorithm</a>, I think I may have made a few changes </p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

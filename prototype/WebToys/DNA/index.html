@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Coolkev: DNA Transcriber and Translator</title>
+  <link rel="stylesheet" type="text/css" href="../../format/style.css" />
+  <script type="text/javascript">
+
+    /* Alright, this bit was stolen, but otherwise its an awful lot of writing... */
+
+    Acids = ['Stop','Alanine','Cysteine','Aspartic acid','Glutamic acid','Phenylalanine','Glycine',
+             'Histidine','Isoleucine','Lysine','Leucine','(Start) Methionine','Asparagine','Proline','Glutamine','Arginine',
+             'Serine','Threonine','Valine','Tryptophan','Tyrosine'];
+
+    AcidsAbr = ['Stop','Ala','Cys','Asp','Gln','Phe','Gly',
+                'His','Ile','Lys','Leu','Met','Asn','Pro','Gln','Arg',
+                'Ser','Thr','Val','Trp','Tyr'];
+
+    startcolor = "#5EC46C";
+    normalcolor = "#5E6EC4";
+    stopcolor = "#F57162";
+    errorcolor = "#CC00FF";
+
+    Colors = [stopcolor,normalcolor,normalcolor,normalcolor,normalcolor,normalcolor,normalcolor,
+              normalcolor,normalcolor,normalcolor,normalcolor,startcolor,normalcolor,normalcolor,normalcolor,normalcolor,
+              normalcolor,normalcolor,normalcolor,normalcolor,normalcolor];
+
+    Mappings = [
+        [[5,5,10,10],[16,16,16,16],[20,20,0,0],[2,2,0,19]],
+        [[10,10,10,10],[13,13,13,13],[7,7,14,14],[15,15,15,15]],
+        [[8,8,8,11],[17,17,17,17],[12,12,9,9],[16,16,15,15]],
+        [[18,18,18,18],[1,1,1,1],[3,3,4,4],[6,6,6,6]]
+    ];
+
+    mRNAtoMappingArray = ["u", "c", "a", "g"];
+
+    /* The rest is my own sweat and blood*/
+
+    function _Class_Codon(dna){
+        dna = dna.toLowerCase();
+        this.DNA = dna;
+        this.mRNA = dna.replace(/A/gi, "u").replace(/C/gi, "~").replace(/G/gi, "c").replace(/T/gi, "a").replace(/~/gi, "g");
+        this.tRNA = dna.replace(/T/gi, "u");
+
+        if (dna.length == 3){
+            var t1=mRNAtoMappingArray.indexOf(this.mRNA[0]);
+            var t2=mRNAtoMappingArray.indexOf(this.mRNA[1]);
+            var t3=mRNAtoMappingArray.indexOf(this.mRNA[2]);
+
+            this.AminoAcidAbriviation = AcidsAbr[Mappings[t1][t2][t3]];
+            this.AminoAcid = Acids[Mappings[t1][t2][t3]];
+
+            this.Color = Colors[Mappings[t1][t2][t3]];
+        }
+        else {
+            this.AminoAcidAbriviation = "???";
+            this.AminoAcid = "Codon Length Error";
+            this.Color = errorcolor;
+        }
+    }
+
+    function main(){
+        document.getElementById("output").innerHTML = "";
+        var out = document.getElementById("output");
+        var inputstring = document.forms["inputform"]["input"].value.toLowerCase();
+        var inputtype = document.forms["inputform"]["inputtype"].value;
+
+        //Convert to DNA if it isn't already DNA.
+        if (inputtype == "mRNA"){
+            inputstring = inputstring.replace(/G/gi, "~").replace(/A/gi, "t").replace(/c/gi, "g").replace(/~/gi, "c").replace(/U/gi, "a");
+            inputtype = "DNA";
+        }
+        if (inputtype == "tRNA"){
+            inputstring = inputstring.replace(/U/gi, "t");
+            inputtype = "DNA";
+        }
+
+        //Remove anything that isn't a base.
+        inputstring = inputstring.replace(/[^atgc]/gi, "");
+
+        //create the codons objects.
+        var codons = new Array();
+
+        while (inputstring){
+            var current = inputstring.substr(0,3);
+            inputstring = inputstring.substr(3);
+            codons.push(new _Class_Codon(current));
+        }
+
+        //Display the data that is in `codons`...
+
+        var rawdna = "DNA :";
+        var rawmrna = "mRNA:";
+        var rawtrna = "tRNA:";
+
+        for (var codonindex in codons){
+            var codon = codons[codonindex];
+            var abr=document.createElement("span");
+            abr.className = "abr";
+            abr.appendChild(document.createTextNode(codon.AminoAcidAbriviation));
+            var longname=document.createElement("span");
+            longname.className = "long";
+            longname.appendChild(document.createTextNode(codon.AminoAcid));
+            var dna=document.createElement("span");
+            dna.className = "DNA";
+            dna.appendChild(document.createTextNode(codon.DNA));
+            rawdna+= " " + codon.DNA;
+            var mrna=document.createElement("span");
+            mrna.className = "mRNA";
+            mrna.appendChild(document.createTextNode(codon.mRNA));
+            rawmrna+= " " + codon.mRNA;
+            var trna=document.createElement("span");
+            trna.className = "tRNA";
+            trna.appendChild(document.createTextNode(codon.tRNA));
+            rawtrna+= " " + codon.tRNA;
+            var count=document.createElement("span");
+            count.className = "count";
+            count.appendChild(document.createTextNode(1 + Number(codonindex)));
+
+            var node=document.createElement("div");
+            node.className = "node";
+            node.style.background = codon.Color;
+            node.appendChild(abr);
+            node.appendChild(longname);
+            node.appendChild(dna);
+            node.appendChild(mrna);
+            node.appendChild(trna);
+            node.appendChild(count);
+
+            out.appendChild(node);
+        }
+
+
+        var clearnode=document.createElement("div");
+        clearnode.style.clear="both";
+        out.appendChild(clearnode);
+
+        var raws=document.createElement("div");
+        raws.id = "rawgroup";
+
+        var rawdnanode=document.createElement("div");
+        rawdnanode.className = "raw";
+        rawdnanode.appendChild(document.createTextNode(rawdna));
+        var rawmrnanode=document.createElement("div");
+        rawmrnanode.className = "raw";
+        rawmrnanode.appendChild(document.createTextNode(rawmrna));
+        var rawtrnanode=document.createElement("div");
+        rawtrnanode.className = "raw";
+        rawtrnanode.appendChild(document.createTextNode(rawtrna));
+
+        raws.appendChild(rawdnanode);
+        raws.appendChild(rawmrnanode);
+        raws.appendChild(rawtrnanode);
+
+        out.appendChild(raws);
+
+    }
+
+
+  </script>
+  <style>
+    #output .node {
+      width:160px;
+      height:130px;
+      float:left;
+      position:relative;
+      text-align:center;
+      border: 1px solid black;
+      margin-right: 10px;
+      margin-top: 40px;
+    }
+
+    #output .node .abr {
+      display:block;
+      font-size: 200%;
+    }
+
+    #output .node .long {
+      display:block;
+    }
+
+    #output .node .DNA {
+      position:absolute;
+      bottom:43px;
+      left:3px;
+      font-family:monospace;
+    }
+    #output .node .DNA:before {
+      content: "DNA : ";
+    }
+
+    #output .node .mRNA {
+      position:absolute;
+      bottom:23px;
+      left:3px;
+      font-family:monospace;
+    }
+    #output .node .mRNA:before {
+      content: "mRNA: ";
+    }
+
+    #output .node .tRNA {
+      position:absolute;
+      bottom:3px;
+      left:3px;
+      font-family:monospace;
+    }
+    #output .node .count {
+      position:absolute;
+      bottom:3px;
+      right:3px;
+      font-family:monospace;
+    }
+    #output .node .tRNA:before {
+      content: "tRNA: ";
+    }
+    #output .raw {
+      display: block;
+      font-family:monospace;
+    }
+
+    #output #rawgroup {
+      margin-top:30px;
+    }
+  </style>
+</head>
+<body>
+<div id="container">
+  <div id="logo">
+    <img src="/images/Logo.png" alt="Coolkev Logo" />
+  </div>
+  <div id="title">
+    <div id="siteTitle">
+      Coolkev.com
+    </div>
+    <div id="pageTitle">
+      DNA Transcriber and Translator
+    </div>
+  </div>
+  <div id="navbar">
+    <div class="navTitle" id="siteNav">
+      Site Navigation
+    </div>
+    <ul>
+      <li><a href="/">Home</a></li>
+    </ul>
+    <div class="navTitle" id="dirNav">
+      Directory Navigation
+    </div>
+    <ul>
+      <li><a href="/prototype/WebToys/belltimer/">PNHS Bell Timer</a></li>
+      <li><a href="/prototype/WebToys/Dijkstra/">My Personal Implementation of Dijkstra's Algorithm</a></li>
+      <li><a href="/prototype/WebToys/Dimensional_Analysis/">Dimensional Analysis Tool</a></li>
+      <li><a href="/prototype/WebToys/DNA/">DNA Parser</a></li>
+      <li><a href="/prototype/WebToys/EquationBalancer/">Equation Balancer</a></li>
+      <li><a href="/prototype/WebToys/Game/">Coolkev Game (broken)</a></li>
+    </ul>
+  </div>
+  <div id="content">
+
+    <div style="text-align:left">
+      <h1 style="text-align:center"> Genetic Code Conversion </h1>
+      <fieldset>
+        <legend>Input:</legend>
+        <form id="inputform" onsubmit="main(); return false;">
+          <textarea name="input" onkeyup="main();" style="width:100%;"></textarea>
+          <select onchange="main();" name="inputtype">
+            <option value="DNA">is DNA</option>
+            <option value="mRNA">is mRNA</option>
+            <option value="tRNA">is tRNA (the anticodons)</option>
+          </select>
+          <input type="submit" value="Solve!">
+        </form>
+      </fieldset>
+
+      <fieldset style="margin-top:30px; background-color:tan;">
+        <legend>Output:</legend>
+        <div id="output">
+          Input some DNA to try out the program!
+
+          <!-- SAMPLE
+          <div class="node">
+            <span class="abr"> Stop </span>
+            <span class="long"> (Start) Methionine </span>
+            <span class="DNA"> atg </span>
+            <span class="mRNA"> uac </span>
+            <span class="tRNA"> utg </span>
+          </div>
+          -->
+        </div>
+      </fieldset>
+
+      <p> Idea based on <a href="http://webusers.physics.illinois.edu/~esham2/dna/dna.php">code</a> written by <a href="mailto:bdesham@gmail.com">Benjamin Esham</a>.</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

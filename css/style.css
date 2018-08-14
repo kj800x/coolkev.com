@@ -1,0 +1,71 @@
+nav {
+  text-align: center;
+  margin-top: 10px;
+}
+header img {
+  background: rgba(255, 255, 255, 0.7);
+  border-bottom-left-radius: 50px;
+  border-bottom-right-radius: 50px;
+  width: 100px;
+}
+header {
+  text-align: center;
+}
+
+nav .triggera{
+  padding: 6px 13px;
+  margin: 0 10px;
+  display: inline-block;
+  border: 2px solid blue;
+  background: #FFC1C1;
+  border-bottom: none;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+nav .triggera.active{
+  color: black;
+  text-decoration: none;
+  background: #FF7070;
+}
+
+#content{
+  max-width: 900px;
+  margin: 0 auto;
+  border: 1px solid blue;
+  background: #A0F2EF;
+  padding: 20px;
+  border-radius: 20px;
+}
+
+footer {
+  position: fixed;
+  bottom:0;
+  display:block;
+  right:0px;
+  left:0;
+  padding: 5px;
+  background:rgba(255,255,255, .8);
+  text-align:center;
+}
+.contentdiv{
+  display:none;
+}
+.contentdiv.active{
+  display:block;
+}
+div.contentdiv#home{
+  margin-left: 175px;
+}
+
+html, body {
+  font-family: Tahoma, Verdana, Segoe, sans-serif;
+  margin: 0px;
+  border: 0px;
+  padding: 0px;
+  background: url("../images/subtle_white_mini_waves.png");
+}
+
+body {
+  margin-bottom: 28px;
+}

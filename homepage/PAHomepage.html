@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<!-- saved from url=(0043)http://coolkev.com/homepage/PAHomepage.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="theme-color" content="#C07238">
+    <title>start</title>
+    <style type="text/css">
+
+      *, * * {
+        font-family: monospace !important; /* I might not like this */
+      }
+
+      body {
+        background : #101012;  /*#170F0D;*/
+        font-style : normal;
+        color : #c0b18b; /*#AF652F;*/
+        margin : 50px;
+      }
+
+      td, tr {
+        width: 25%;
+        text-align: center;
+        font-size: 14px;
+      }
+
+      a {
+        font-weight: 300;
+        color : #7a303e; /*#908F32;*/
+      }
+
+      a:hover{
+        color: #b1465a; /*#C3C13D;*/
+      }
+
+      a:link {
+        text-decoration : none;
+      }
+
+      #time {
+        font-size: 62px;
+        text-align: center;
+        margin-bottom:20px;
+      }
+
+      .googleForm {
+        margin-top:20px;
+        width : 100%;
+        height : 30px;
+        font-weight : 100;
+      }
+
+      .googleForm > input {
+        width : 100%;
+        background: #101012; /*#170F0D;*/
+        color: #c0b18b; /*#AF542F;*/
+        border: 2px solid #392925;
+        border-radius: 4px;
+        padding: 0 4px;
+      }
+
+      /* This aligner stuff is supposed to center the Aligner-item vertically and horizontally. It obviously isn't doing it's job... */
+
+      #Aligner {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .Aligner-item {
+        width : 480px;
+        height : 300px;
+      }
+
+      .Aligner-item--top {
+        align-self: flex-start;
+      }
+
+      .Aligner-item--bottom {
+        align-self: flex-end;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div id="Aligner">
+      <div class="Aligner-item Aligner-item--top">&nbsp;</div>
+      <div class="Aligner-item">
+        <div id="time">10:22</div>
+	<table width="100%" border="0px">
+          <tbody><tr>
+            <td colspan="4" style="padding-bottom:5px;">
+              <b>PowerAdvocate</b>
+            </td>
+          </tr>
+	  <tr>
+	    <td>
+              <a href="https://newacumatica.poweradvocate.com/AcumaticaProd/Frames/Login.aspx?ReturnUrl=%2fAcumaticaProd">Acumatica</a>
+	    </td>
+            <td>
+	      <a href="http://outlook.com/owa/poweradvocate.com">Outlook</a>
+            </td>
+            <td>
+	      <a href="http://poweradvocate-tech.slack.com/">Slack</a>
+            </td>
+	    <td>
+              <a href="https://poweradvocate.sharepoint.com/_layouts/15/sharepoint.aspx">Sharepoint</a> (<a href="https://sharepoint.poweradvocate.com/">old</a>)
+            </td>
+	  </tr>
+	  <tr>
+            <td>
+	      <a href="https://vs21.poweradvocate.com/">Validation Server</a>
+            </td>	
+        
+    <td>
+              <a href="http://poweradv-s18:8080/jspwiki/Wiki.jsp">Wiki</a>
+	    </td>
+            <td>
+	      <a href="http://poweradv-devci:8080/jenkins">Jenkins</a>
+            </td>
+	    <td>
+              <a href="https://www.poweradvocate.com/login.jsp">Production Server</a>
+            </td>
+	  </tr>
+	  <tr>
+            <td>
+	      <a href="http://poweradv-dev55:5000/">Zilboard</a>
+            </td>
+            <td></td>
+            <td></td>
+	    <td></td>
+	  </tr>
+	</tbody></table>
+  	<form class="googleForm" method="get" action="https://google.com/search">
+          <input type="text" name="q" size="30" maxlength="255" placeholder="Google" autofocus="">
+        </form>
+      </div>
+      <div class="Aligner-item Aligner-item--bottom">&nbsp;</div>
+    </div>
+    <script>
+(function(){
+  
+  function getMinutesTwoDigits(time) {
+    var min = time.getMinutes();
+    if (min < 10) {
+      return "0" + min;
+    }
+    return "" + min;
+  }
+
+  function getHoursModTwelve(time) {
+    var hours = time.getHours();
+    hours = hours%12;
+    if (hours == 0) { // 0 o'clock should be rendered as 12 o'clock.
+      hours = 12;
+    }
+    return hours;
+  }  
+
+  function updateClock() {
+    var now = new Date();
+    var formattedTime = getHoursModTwelve(now) + ':' + getMinutesTwoDigits(now);
+    document.getElementById('time').innerHTML = formattedTime;
+  }
+
+  setInterval(updateClock, 1000); // Update the clock every second.
+
+  updateClock();
+
+})();
+    </script>
+  
+
+</body></html>

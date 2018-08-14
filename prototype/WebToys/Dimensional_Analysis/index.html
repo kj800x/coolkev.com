@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dimensional Analysis Tool</title>
+    <link rel="stylesheet" type="text/css" href="../../format/style.css" />
+    <script type="text/javascript" src="./polyfill.js"></script>
+    <script type="text/javascript" src="./jquery.min.js"></script>
+    <script type="text/javascript" src="./hooker.js"></script>
+    <script type="text/javascript" src="./clone.js"></script>
+    <script type="text/javascript" src="./class_hmi.js"></script>
+    <script type="text/javascript" src="./class_chemistry.js"></script>
+    <script type="text/javascript" src="./class_dim_analysis.js"></script>
+    <script type="text/javascript" src="./class_rec_factors.js"></script>
+    <script type="text/javascript" src="./class_balanced.js"></script>
+    <link rel="stylesheet" type="text/css" href="./style.css" />
+</head>
+<body>
+<div id="container">
+    <div id="logo">
+        <img src="/images/Logo.png" alt="Coolkev Logo" />
+    </div>
+    <div id="title">
+        <div id="siteTitle">
+            Coolkev.com
+        </div>
+        <div id="pageTitle">
+            Dimensional Analysis Tool
+        </div>
+    </div>
+    <div id="navbar">
+        <div class="navTitle" id="siteNav">
+            Site Navigation
+        </div>
+        <ul>
+            <li><a href="/">Home</a></li>
+        </ul>
+        <div class="navTitle" id="dirNav">
+            Directory Navigation
+        </div>
+        <ul>
+            <li><a href="/prototype/WebToys/belltimer/">PNHS Bell Timer</a></li>
+            <li><a href="/prototype/WebToys/Dijkstra/">My Personal Implementation of Dijkstra's Algorithm</a></li>
+            <li><a href="/prototype/WebToys/Dimensional_Analysis/">Dimensional Analysis Tool</a></li>
+            <li><a href="/prototype/WebToys/DNA/">DNA Parser</a></li>
+            <li><a href="/prototype/WebToys/EquationBalancer/">Equation Balancer</a></li>
+            <li><a href="/prototype/WebToys/Game/">Coolkev Game (broken)</a></li>
+        </ul>
+    </div>
+    <div id="content">
+
+        <div id="output">
+            <div class="floatbreak"></div>
+        </div>
+        <div class="floatbreak"></div>
+        <table class="settings">
+            <tr>
+                <td>
+                    Starting Value:
+                </td>
+                <td>
+                    <input type="text" id="startingValue" onkeyup="ui.updateStart()">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Manually Add Conversion Factor:
+                </td>
+                <td>
+                    <table class="fractionTable">
+                        <tr>
+                            <td> <input id="numeratorToAdd" /></td>
+                        </tr>
+                        <tr>
+                            <td> <input id="denominatorToAdd" /></td>
+                        </tr>
+                    </table>
+                </td>
+                <td>
+                    <button onclick="ui.addConversionFactor()">Add</button>
+                </td>
+            </tr>
+        </table>
+        <div id="ui_rec_output">
+        </div>
+        <div id="ui_bal_input">
+            Enter Balanced Equation: <input type="text" id="bal_in">
+        </div>
+        <div id="notes">
+            <span>Notes:</span>
+            <ol>
+                <li>1mol <--> 22.4L, only when at STP</li>
+                <li>Your equation is assumed to be balanced. You can put in an unbalenced equation, but the stoich will be very wrong!</li>
+                <li>Enter grams of molecule as "5 g-H2O". No spaces as part of the unit. You can also do "5 mol-H2O", or "5 L-H2O".</li>
+            </ol>
+        </div>
+        <script type="text/javascript" src="./ui.js"></script>
+    </div>
+</div>
+</body>
+</html>

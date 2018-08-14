@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>PNHS Bell Timer</title>
+  <link rel="stylesheet" type="text/css" href="../../format/style.css" />
+
+  <script type="text/javascript" src="./eve.js"></script>
+  <script type="text/javascript" src="./schedule.js"></script>
+  <style>
+    #timertable{
+      width: 100%;
+      margin: auto;
+      border: 1px solid black;
+    }
+    #lastblock{
+      background-color: #FFAAAA;
+    }
+    #currentblock {
+      background-color: #FFAAFF;
+    }
+    #nextblock {
+      background-color: #AAAAFF;
+    }
+    #belltimerbase {
+      text-align: center;
+    }
+
+    .floatleft {
+      float:left;
+    }
+
+    .floatright {
+      float:right;
+    }
+    .time {
+      display:block;
+      text-align:center;
+    }
+    .percent {
+      display:block;
+      text-align:center;
+    }
+    .title {
+      display:block;
+      text-align:center;
+    }
+
+  </style>
+  <script type="text/javascript">
+
+      Date.prototype.getDOY = function() {
+          var onejan = new Date(this.getFullYear(),0,1);
+          return Math.ceil((this - onejan) / 86400000);
+      }
+          [{"Title":"Before School","Start":{"h":0,"m":0},"End":{"h":9,"m":20}},{"Title":"A Period","Start":{"h":9,"m":20},"End":{"h":9,"m":49}},{"Title":"Passing","Start":{"h":9,"m":49},"End":{"h":9,"m":53}},{"Title":"B Period","Start":{"h":9,"m":53},"End":{"h":10,"m":22}},{"Title":"Passing","Start":{"h":10,"m":22},"End":{"h":10,"m":26}},{"Title":"C Period","Start":{"h":10,"m":26},"End":{"h":10,"m":55}},{"Title":"Passing","Start":{"h":10,"m":55},"End":{"h":11,"m":4}},{"Title":"D Period","Start":{"h":11,"m":4},"End":{"h":11,"m":28}},{"Title":"Passing","Start":{"h":11,"m":28},"End":{"h":11,"m":32}},{"Title":"E Period (1st Lunch)","Start":{"h":11,"m":32},"End":{"h":11,"m":57}},{"Title":"E Period (Lunch Passing)","Start":{"h":11,"m":57},"End":{"h":12,"m":0}},{"Title":"E Period (2nd Lunch)","Start":{"h":12,"m":0},"End":{"h":12,"m":25}},{"Title":"E Period (Lunch Passing)","Start":{"h":12,"m":25},"End":{"h":12,"m":28}},{"Title":"E Period (3rd Lunch)","Start":{"h":12,"m":28},"End":{"h":12,"m":53}},{"Title":"Passing","Start":{"h":12,"m":53},"End":{"h":12,"m":57}},{"Title":"F Period","Start":{"h":12,"m":57},"End":{"h":13,"m":26}},{"Title":"Passing","Start":{"h":13,"m":26},"End":{"h":13,"m":30}},{"Title":"G Period","Start":{"h":13,"m":30},"End":{"h":14,"m":0}},{"Title":"After School","Start":{"h":14,"m":0},"End":{"h":24,"m":0}}]
+      function popup() {
+          myWindow=window.open('','','width=200,height=100,location=0,menubar=0,resizable=0,scrollbars=0,status=0,toolbar=0');
+          myWindow.document.write("<style>body {background-color: #FFAAFF;text-align:center} .floatleft {float:left;}.floatright {float:right;}.time {display:block;text-align:center;}.percent {display:block;text-align:center;}.title {display:block;text-align:center;}</style><div id=\"currentremoteblock\"></div>");
+          myWindow.focus();
+          setInterval(function(){
+              myWindow.document.getElementById("currentremoteblock").innerHTML = document.getElementById("currentblock").innerHTML;
+          },500);
+      }
+
+      function addzeropadding(i) {
+          if (i < 10) {
+              i = "0" + i;
+          }
+          return i;
+      }
+
+      function formattime(time) {
+          resulttext = "";
+          if (time.special != undefined) {
+              resulttext = time.special;
+          } else {
+              afternoon = false;
+              if (time.h > 12) {
+                  resulttext += (time.h - 12);
+                  afternoon = true;
+              } else {
+                  resulttext += (time.h);
+              }
+              resulttext += ":";
+              resulttext += addzeropadding(time.m);
+              if (time.s != undefined) {
+                  resulttext += ":";
+                  resulttext += addzeropadding(time.s);
+              }
+              if (afternoon) {
+                  resulttext += " PM";
+              } else {
+                  resulttext += " AM";
+              }
+          }
+          return resulttext;
+      }
+
+      function formattimedelta(time) {
+          return _millisecondsToStr(time.m*60000+time.s*1000, "computer");
+//resulttext = "";
+//if (time.h != undefined)
+//      resulttext += addzeropadding(time.h) + ":";
+//    resulttext += addzeropadding(time.m) + ":" + addzeropadding(time.s);
+//                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             return resulttext;
+      }
+
+      function getGroupsArray() {
+          for (block in currsched) {
+
+              startdate = new Date(now.getUTCFullYear(), now.getMonth(), now.getDate(), currsched[block].Start.h, currsched[block].Start.m);
+              enddate = new Date(now.getUTCFullYear(), now.getMonth(), now.getDate(), currsched[block].End.h, currsched[block].End.m);
+              if (startdate < now && now < enddate) {
+                  goodblock = block;
+                  return [currsched[block - 1], currsched[block], currsched[((block - 1) + 2)]];
+              }
+          }
+          return [undefined, undefined, undefined];
+      }
+
+      function getPercent(timeborderone, timepoint, timebordertwo){
+          var tbo = timeborderone.getTime();
+          var tp = timepoint.getTime();
+          var tbt = timebordertwo.getTime();
+          return ((tp - tbo) / (tbt - tbo))
+      }
+
+      function fillInBlanks(Results) {
+          if (Results[0] == undefined) {
+              Results[0] = {
+                  "Title": "Yesterday",
+                  "Start": {
+                      "special": "Midnight - 1 Day"
+                  },
+                  "End": {
+                      "special": "Midnight"
+                  }
+              }
+          }
+          if (Results[1] == undefined) {
+              Results[1] = {
+                  "Title": "Mysterious Unknown Block",
+                  "Start": {
+                      "special": "Unknown Start Time"
+                  },
+                  "End": {
+                      "special": "Unknown End Time"
+                  }
+              }
+          }
+          if (Results[2] == undefined) {
+              Results[2] = {
+                  "Title": "Tomorrow",
+                  "Start": {
+                      "special": "Midnight"
+                  },
+                  "End": {
+                      "special": "Midnight + 1 Day"
+                  }
+              }
+          }
+          return Results;
+      }
+
+      function compareTimes(timeone, timetwo) {
+          differenceInMills = Math.abs(timeone.getTime() - timetwo.getTime());
+          var seconds = ((differenceInMills / 1000) % 60);
+          var minutes = ((differenceInMills / 1000) / 60);
+          return {
+              "s": Math.ceil(seconds),
+              "m": Math.floor(minutes)
+          };
+      }
+
+      function displayResults(Results) {
+          var TimeElapsed = compareTimes(now, new Date(now.getUTCFullYear(), now.getMonth(), now.getDate(), Results[1].Start.h, Results[1].Start.m));
+          var TimeRemaining = compareTimes(now, new Date(now.getUTCFullYear(), now.getMonth(), now.getDate(), Results[1].End.h, Results[1].End.m));
+          var PercentElapsed = getPercent(new Date(now.getUTCFullYear(), now.getMonth(), now.getDate(), Results[1].Start.h, Results[1].Start.m),
+                                          now,
+                                          new Date(now.getUTCFullYear(), now.getMonth(), now.getDate(), Results[1].End.h, Results[1].End.m));
+          PercentElapsed = Math.round(PercentElapsed * 100)
+          document.getElementById("lasttitle").innerHTML = Results[0].Title;
+          document.getElementById("laststart").innerHTML = formattime(Results[0].Start);
+          document.getElementById("lastend").innerHTML   = formattime(Results[0].End);
+
+          document.getElementById("curtitle").innerHTML   = Results[1].Title;
+          document.getElementById("curtime").innerHTML    = formattime({ "h": now.getHours(), "m": now.getMinutes(), "s": now.getSeconds()})
+          document.getElementById("curpercent").innerHTML = PercentElapsed + "%";
+          document.getElementById("curstart").innerHTML   = formattimedelta(TimeElapsed);
+          document.getElementById("curend").innerHTML     = formattimedelta(TimeRemaining);
+
+          document.getElementById("nexttitle").innerHTML = Results[2].Title;
+          document.getElementById("nextstart").innerHTML = formattime(Results[2].Start);
+          document.getElementById("nextend").innerHTML   = formattime(Results[2].End);
+      }
+
+      function getSched() {
+          var sched = window.Days.normal[now.getDay()];
+          for (i = 0; i<window.Days.special.length; i++){
+              if (window.Days.special[i].days.indexOf((now.getMonth()+1) +"-"+ now.getDate()) > -1){
+                  sched = window.Days.special[i].schedule;
+              }
+          }
+          return sched
+      }
+
+      function startTime() {
+          window.now = new Date();
+          window.now.getDOY = function() {var onejan = new Date(this.getFullYear(),0,1);return Math.ceil((this - onejan) / 86400000);}
+          window.now.setSeconds(window.now.getSeconds() - 33/* - (window.now.getDOY()-(0))*/);
+          window.currsched = getSched();
+          var Results = getGroupsArray();
+          test = Results;
+          Results = fillInBlanks(Results);
+          Results = displayResults(Results);
+          t = setTimeout(startTime, 500);
+      }
+
+  </script>
+</head>
+<body>
+<div id="container">
+  <div id="logo">
+    <img src="/images/Logo.png" alt="Coolkev Logo" />
+  </div>
+  <div id="title">
+    <div id="siteTitle">
+      Coolkev.com
+    </div>
+    <div id="pageTitle">
+      PNHS Bell Timer
+    </div>
+  </div>
+  <div id="navbar">
+    <div class="navTitle" id="siteNav">
+      Site Navigation
+    </div>
+    <ul>
+      <li><a href="/">Home</a></li>
+    </ul>
+    <div class="navTitle" id="dirNav">
+      Directory Navigation
+    </div>
+    <ul>
+      <li><a href="/prototype/WebToys/belltimer/">PNHS Bell Timer</a></li>
+      <li><a href="/prototype/WebToys/Dijkstra/">My Personal Implementation of Dijkstra's Algorithm</a></li>
+      <li><a href="/prototype/WebToys/Dimensional_Analysis/">Dimensional Analysis Tool</a></li>
+      <li><a href="/prototype/WebToys/DNA/">DNA Parser</a></li>
+      <li><a href="/prototype/WebToys/EquationBalancer/">Equation Balancer</a></li>
+      <li><a href="/prototype/WebToys/Game/">Coolkev Game (broken)</a></li>
+    </ul>
+  </div>
+  <div id="content">
+    <div id="belltimerbase">
+      <h1>School Timer</h1>
+      <table id="timertable">
+        <tr>
+          <td>
+            <div class="blocks" id="lastblock">
+              <span class="title" id="lasttitle"></span><br /><br />
+              <span class="floatleft" id="laststart"></span>
+              <span class="floatright" id="lastend"></span><br />
+            </div>
+          </td>
+          <td>
+            <div class="blocks" id="currentblock">
+              <span class="title" id="curtitle">LOADING</span>
+              <span id="curtime"></span><br />
+              <span class="percent" id="curpercent"></span>
+              <span class="floatleft" id="curstart"></span>
+              <span class="floatright" id="curend"></span><br />
+            </div>
+          </td>
+          <td>
+            <div class="blocks" id="nextblock">
+              <span class="title" id="nexttitle"></span><br /><br />
+              <span class="floatleft" id="nextstart"></span>
+              <span class="floatright" id="nextend"></span><br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      <button onclick="popup()">Create a pop-up timer</button>
+      <script type="text/javascript">
+          startTime();
+      </script>
+    </div>
+  </div>
+</div>
+</body>
+</html>

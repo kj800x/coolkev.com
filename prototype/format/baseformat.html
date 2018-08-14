@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>{% block Title %}Coolkev.com{% endblock Title %}</title>
+		<link rel="stylesheet" type="text/css" href="/format/style.css" />
+		{% block SpareJavascript %}{% endblock SpareJavascript %}
+	</head>
+	<body>
+		<div id="container">
+			<div id="logo">
+				<img src="/format/Logo.png" alt="Coolkev Logo" />
+			</div>
+			<div id="title">
+				<div id="siteTitle">
+				    Coolkev.com
+				</div>
+				<div id="pageTitle">
+					{% block PageTitle %}{% endblock PageTitle %}
+				</div>
+			</div>
+			<div id="navbar">
+				<div class="navTitle" id="siteNav">
+					Site Navigation
+				</div>
+				<ul>
+					<li><a href="/">Home</a></li>
+					<li><a href="/WebToys/">Coolkev Web Toys</a></li>
+				</ul>
+                {% block DirectoryNav %}
+				<div class="navTitle" id="dirNav">
+					Directory Navigation
+				</div>
+				<ul>
+					{% block DirectoryNavText %}<li>OH NO SOMETHING IS BROKE</li>{% endblock DirectoryNavText %}
+				</ul>
+                {% endblock DirectoryNav %}
+			</div>
+			<div id="content">
+				{% block Content %}{% endblock Content %}
+			</div>
+		</div>
+	</body>
+</html>
+<!--
+Title
+PageTitle
+Content
+DirectoryNav
+SpareJavascript
+-->
