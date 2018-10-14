@@ -48,13 +48,13 @@ footer {
   background:rgba(255,255,255, .8);
   text-align:center;
 }
-.contentdiv{
+.contentdiv {
   display:none;
 }
-.contentdiv.active{
+.contentdiv.active {
   display:block;
 }
-div.contentdiv#home{
+div.contentdiv#home {
   margin-left: 175px;
 }
 
@@ -63,7 +63,8 @@ html, body {
   margin: 0px;
   border: 0px;
   padding: 0px;
-  background: url("../images/subtle_white_mini_waves.png");
+  background-color: #e9e7e1;
+  background-image: url("../images/subtle_white_mini_waves.png");
 }
 
 body {
