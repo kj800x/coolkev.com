@@ -12,53 +12,54 @@ header {
   text-align: center;
 }
 
-nav .triggera{
+nav .triggera {
   padding: 6px 13px;
   margin: 0 10px;
   display: inline-block;
   border: 2px solid blue;
-  background: #FFC1C1;
+  background: #ffc1c1;
   border-bottom: none;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }
 
-nav .triggera.active{
+nav .triggera.active {
   color: black;
   text-decoration: none;
-  background: #FF7070;
+  background: #ff7070;
 }
 
-#content{
+#content {
   max-width: 900px;
   margin: 0 auto;
   border: 1px solid blue;
-  background: #A0F2EF;
+  background: #a0f2ef;
   padding: 20px;
   border-radius: 20px;
 }
 
 footer {
   position: fixed;
-  bottom:0;
-  display:block;
-  right:0px;
-  left:0;
+  bottom: 0;
+  display: block;
+  right: 0px;
+  left: 0;
   padding: 5px;
-  background:rgba(255,255,255, .8);
-  text-align:center;
+  background: rgba(255, 255, 255, 0.8);
+  text-align: center;
 }
 .contentdiv {
-  display:none;
+  display: none;
 }
 .contentdiv.active {
-  display:block;
+  display: block;
 }
 div.contentdiv#home {
   margin-left: 175px;
 }
 
-html, body {
+html,
+body {
   font-family: Tahoma, Verdana, Segoe, sans-serif;
   margin: 0px;
   border: 0px;
