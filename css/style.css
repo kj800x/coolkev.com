@@ -3,10 +3,11 @@ nav {
   margin-top: 10px;
 }
 header img {
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.3);
   border-bottom-left-radius: 50px;
   border-bottom-right-radius: 50px;
   width: 100px;
+  height: 100px;
 }
 header {
   text-align: center;
