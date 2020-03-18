@@ -1,0 +1,21 @@
+<html>
+<head>
+<title>Hi Json</title>
+</head>
+<body>
+<h1> Yo </h1>
+<div id="marqs"></div>
+<script>
+const target = parseInt(prompt("how many?"), 10);
+for (let i = 0; i < target; i++) {
+  const mq = document.createElement("marquee");
+  mq.innerHTML = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque iaculis, neque vel pellentesque eleifend, lacus velit aliquam odio, sed hendrerit nisl leo at enim. Aliquam consequat facilisis ultrices. Cras blandit mi ut nunc imperdiet suscipit. Aenean vitae nisl sapien. Sed enim ligula, tristique vel dignissim a, ultrices in velit. Aenean in luctus mauris, et tempor ligula. Proin tincidunt leo nec odio egestas pellentesque et et odio. Sed lobortis tellus est, vitae dictum mi pretium id."
+  mq.innerHTML = mq.innerHTML.substring(0, 200)
+  mq.behavior = "alternate"
+  mq.trueSpeed = true;
+  mq.scrollDelay = Math.floor(Math.random()*80 + 20)
+  document.getElementById("marqs").appendChild(mq);
+}
+</script>
+</body>
+</html>
